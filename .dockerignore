@@ -1,0 +1,13 @@
+# Keep the build context small and local state out of the image.
+.git
+.gitignore
+.dockerignore
+.venv
+.claude
+__pycache__
+*.py[oc]
+.env
+.idea
+.vscode
+fly.toml
+Dockerfile
