@@ -1,0 +1,9 @@
+export const canvas = document.getElementById('game');
+export const ctx = canvas.getContext('2d');
+export const logEl = document.getElementById('log');
+export const hpEl = document.getElementById('hp');
+export const headerEl = document.getElementById('header');
+export const floorEl = document.getElementById('floor');
+export const speedEl = document.getElementById('speed');
+export const damageEl = document.getElementById('damage');
+export const defenseEl = document.getElementById('defense');

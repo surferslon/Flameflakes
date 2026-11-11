@@ -1,0 +1,9 @@
+[project]
+name = "flakeslord"
+version = "0.1.0"
+description = "FlakesLord"
+requires-python = ">=3.14"
+dependencies = ["fastapi", "uvicorn[standard]"]
+
+[tool.uv]
+package = false
