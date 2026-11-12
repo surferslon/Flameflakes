@@ -16,7 +16,6 @@ def _hits(rng: random.Random, attack: int, dv: int) -> bool:
 
 
 def player_attacks(rng: random.Random, gear: Gear, target: Entity) -> list[str]:
-    """The player strikes `target`. Returns the log lines; the target's hp is already reduced."""
     if not _hits(rng, gear.attack, target.dv):
         return [f"You miss the {target.name}."]
     amount = max(0, dice.roll(rng, gear.damage))  # a negative roll (3d13-9) is just a hit that does nothing
@@ -28,7 +27,6 @@ def player_attacks(rng: random.Random, gear: Gear, target: Entity) -> list[str]:
 
 
 def monster_attacks(rng: random.Random, mon: Entity, gear: Gear, player: Entity) -> str:
-    """A monster strikes the player: DV decides whether it hits, PV is taken off the damage."""
     if not _hits(rng, mon.attack, gear.dv):
         return f"The {mon.name} misses you."
     amount = max(0, dice.roll(rng, mon.damage) - gear.pv)

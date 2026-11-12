@@ -15,12 +15,12 @@ class Entity:
     name: str
     hp: int
     ai: bool = False
-    damage: str = "1d3"  # dice rolled per hit, e.g. "2d6"
+    damage: str = "1d3"
     boss: bool = False
-    attack: int = 40             # attack value: rolls against the DV of the target (see combat.py)
-    dv: int = 0                  # defense value: how hard it is to hit
-    speed: int = DEFAULT_SPEED   # energy gained per turn; acts whenever it reaches ACTION_COST
-    energy: float | None = None  # filled in below
+    attack: int = 40
+    dv: int = 0
+    speed: int = DEFAULT_SPEED
+    energy: float | None = None
     id: int = field(default_factory=lambda: next(_ids))  # stable identity for client animation
 
     def __post_init__(self) -> None:

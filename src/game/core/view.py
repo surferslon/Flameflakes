@@ -10,7 +10,6 @@ class ClientView:
         shown = self._log_lines()
         return {
             "w": W, "h": H,
-            # No level and no status line (black screen) during the intro pages and after death.
             "blank": (game.story.reading and not game.won) or game.dead,
             "level": world.level_id,
             "floor": "?" if world.chaos else world.floor_no, "floors": "?" if world.chaos else TOTAL_FLOORS,
@@ -32,15 +31,15 @@ class ClientView:
         world = self.game.world
         known = [[tile if (x, y) in world.explored else " " for x, tile in enumerate(row)]
                  for y, row in enumerate(world.floor.tiles)]
-        for (x, y), pile in world.items.items():  # items lying on a tile that has been seen
+        for (x, y), pile in world.items.items():
             if (x, y) in world.explored:
                 known[y][x] = SLOT_GLYPHS[ITEMS[pile[0]]["slot"]] if len(pile) == 1 else PILE_GLYPH
         return ["".join(row) for row in known]
 
     def _log_lines(self) -> list[tuple[str, str]]:
         game = self.game
-        if game.dead:  # the death message is all that is left on screen
+        if game.dead:
             return [("death", DEATH_MESSAGE)]
-        if game.story.reading:  # a story page is the only thing shown, and it has no turn
+        if game.story.reading:
             return [(f"page:{game.story.current}", game.story.current)]
         return game.log_lines.visible(game.turn)

@@ -15,15 +15,14 @@ class Turns:
         self.rng, self.player, self.world, self.inventory, self.log = rng, player, world, inventory, log
 
     def player_acts(self, dx: int, dy: int) -> bool:
-        """Strike what stands in the way, otherwise step. False when nothing happened (a wall)."""
         p, world = self.player, self.world
         if target := world.monster_at(p.x + dx, p.y + dy):
             self._strike(target)
             return True
         if not (dx or dy):
-            return True  # waiting
+            return True
         if not world.floor.is_walkable(p.x + dx, p.y + dy):
-            return False  # bumping into a wall costs no turn
+            return False
         p.x, p.y = p.x + dx, p.y + dy
         world.reveal(p)
         self._notice_what_lies_here()
@@ -58,7 +57,6 @@ class Turns:
             self.log(pile_text(pile))
 
     def _monster_acts(self, mon: Entity) -> bool:
-        """A monster next to the player strikes; one that sees the player comes closer."""
         p = self.player
         if monsters.is_adjacent(mon, p):
             self.log(combat.monster_attacks(self.rng, mon, self.inventory.gear, p))

@@ -2,11 +2,10 @@ from ..constants import CARRY_CAPACITY, EQUIPMENT_SLOTS, ITEMS, START_ITEMS
 from .gear import Gear
 
 Pos = tuple[int, int]
-Result = tuple[bool, list[str]]  # whether something happened, and what the log should say
+Result = tuple[bool, list[str]]
 
 
 def pile_text(pile: list[str]) -> str:
-    """What the log says when the player stands on items lying on the floor."""
     if len(pile) == 1:
         return f"{pile[0]} lies here. Press F to pick it up."
     return "Several items lying here. Press F to pick one up."
@@ -14,8 +13,8 @@ def pile_text(pile: list[str]) -> str:
 
 class Inventory:
     def __init__(self) -> None:
-        self.equipment: dict[str, str | None] = dict.fromkeys(EQUIPMENT_SLOTS)  # slot -> item name
-        self.backpack: list[str] = []  # item names; carried, not worn
+        self.equipment: dict[str, str | None] = dict.fromkeys(EQUIPMENT_SLOTS)
+        self.backpack: list[str] = []
         for name in START_ITEMS:
             self.equipment[ITEMS[name]["slot"]] = name
         self.gear = Gear(self.equipment)
@@ -32,7 +31,6 @@ class Inventory:
         self.backpack.append(name)
 
     def equip(self, index: object) -> Result:
-        """Wear the backpack item at `index`; whatever was worn there goes into the backpack."""
         if not isinstance(index, int) or not 0 <= index < len(self.backpack):
             return False, []
         name = self.backpack[index]
@@ -55,7 +53,6 @@ class Inventory:
         return True, [f"You take off the {name}."]
 
     def pick_up(self, items: dict[Pos, list[str]], pos: Pos) -> Result:
-        """Take the item on top of the pile at `pos` (the one put down last)."""
         pile = items[pos]
         name = pile[-1]
         if not self.fits(ITEMS[name]["weight"]):
@@ -67,7 +64,6 @@ class Inventory:
         return True, [f"You pick up the {name}.", *([pile_text(pile)] if pile else [])]
 
     def drop(self, items: dict[Pos, list[str]], pos: Pos, index: object) -> Result:
-        """Put the backpack item at `index` down on the pile at `pos`."""
         if not isinstance(index, int) or not 0 <= index < len(self.backpack):
             return False, []
         name = self.backpack.pop(index)

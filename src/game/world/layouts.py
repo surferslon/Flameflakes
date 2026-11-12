@@ -2,11 +2,25 @@
 
     #  wall or column      .  floor        <  stairs back down (where you arrive)
     g  a guard (a monster fit for this floor)    F  the boss     (g and F stand on floor)
+    =  a door in the wall: only for show, it is a wall (the way you came in)
+    @  where the player starts (floor)
     Y  the Grail: stand on it and press F to take it and win
 """
 
-# The top floor: the hall of the High Kings. A square antechamber, a long hall with
-# a row of columns along each side, and a square throne room where the boss waits.
+# The room the first floor starts in, put at the bottom of the map; the rest of the floor is random.
+START_ROOM = [
+    "####################",
+    "#..................#",
+    "#..#...#....#...#..#",
+    "#..................#",
+    "#..................#",
+    "#..................#",
+    "#..#...#....#...#..#",
+    "#........@.........#",
+    "#########==#########",
+]
+
+# The top floor: the hall of the High Kings.
 TOP_FLOOR = [
     "############################################################",
     "############################################################",

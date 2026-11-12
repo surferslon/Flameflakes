@@ -21,7 +21,6 @@ def parse(spec: str) -> tuple[int, int, int]:
 
 
 def bounds(spec: str) -> tuple[int, int]:
-    """The lowest and highest result of a roll."""
     count, sides, bonus = parse(spec)
     return count + bonus, count * sides + bonus
 

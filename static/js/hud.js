@@ -1,8 +1,8 @@
 import { damageEl, defenseEl, floorEl, hpEl, logEl, speedEl } from './dom.js';
 
-const LINE_H = 26;     // px per log line
-const LOG_MS = 300;    // how long a line takes to slide or fade
-const lines = new Map(); // message id -> { el, y, o, anim, dying }
+const LINE_H = 26;
+const LOG_MS = 300;
+const lines = new Map();
 let running = false;
 
 // Driven from JavaScript (like the level), so it does not depend on CSS transitions or
@@ -12,7 +12,7 @@ function tick(now) {
   for (const [id, line] of lines) {
     const a = line.anim;
     const t = Math.min(1, (now - a.start) / LOG_MS);
-    const ease = 1 - (1 - t) * (1 - t);  // ease-out
+    const ease = 1 - (1 - t) * (1 - t);
     line.y = a.fromY + (a.toY - a.fromY) * ease;
     line.o = a.fromO + (a.toO - a.fromO) * ease;
     line.el.style.transform = `translateY(${line.y}px)`;
@@ -29,8 +29,6 @@ function moveTo(line, y, o) {
   if (!running) { running = true; requestAnimationFrame(tick); }
 }
 
-// Newest line on top. New lines fade in from above, every older line slides one row
-// down, expired lines fade out.
 function updateLog(texts, ids) {
   ids.forEach((id, row) => {
     let line = lines.get(id);
@@ -54,7 +52,6 @@ function updateLog(texts, ids) {
 }
 
 export function updateHud(s) {
-  // No status line while the screen is black (intro, death).
   floorEl.textContent = s.blank ? '' : `FLOOR ${s.floor}/${s.floors}`;
   speedEl.textContent = s.blank ? '' : `SP ${s.speed}`;
   damageEl.textContent = s.blank ? '' : `DM ${s.damage}`;

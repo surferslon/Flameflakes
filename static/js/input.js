@@ -1,22 +1,18 @@
 import { KEYS } from './config.js';
 import { closeScreen, currentScreen, inventoryRequest, isBlank, isScreenOpen, moveCursor, openScreen } from './render.js';
 
-// Screens drawn by the client instead of the level, opened with these keys.
 const SCREENS = { i: 'inventory', '?': 'help' };
 
-// Moving the cursor in the inventory: [column change, row change].
 const CURSOR_KEYS = {
   ArrowUp: [0, -1], w: [0, -1], ArrowDown: [0, 1], s: [0, 1],
   ArrowLeft: [-1, 0], a: [-1, 0], ArrowRight: [1, 0], d: [1, 0],
 };
-// What the inventory does with the item under the cursor.
 const INVENTORY_KEYS = { Enter: 'use', f: 'use', x: 'drop' };
 
 export function bindKeys(sock) {
   const send = message => sock.readyState === WebSocket.OPEN && sock.send(JSON.stringify(message));
 
   window.addEventListener('keydown', e => {
-    // While a screen is open the game ignores the keys of the level; Esc always closes it.
     if (isScreenOpen()) {
       if (e.key === 'Escape') {
         e.preventDefault();
@@ -33,7 +29,7 @@ export function bindKeys(sock) {
       }
       return;
     }
-    if (SCREENS[e.key] && !isBlank()) {  // no inventory or help on a black screen
+    if (SCREENS[e.key] && !isBlank()) {
       e.preventDefault();
       openScreen(SCREENS[e.key]);
       return;

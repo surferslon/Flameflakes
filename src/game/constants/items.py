@@ -3,11 +3,7 @@
 
 from .world import GRAIL_NAME
 
-# Items. slot: where it is worn; weight in kg. Effects, all optional:
-#   damage  dice rolled per hit (Hands)           pv     protection value: taken off every hit you suffer
-#   dv      defense value: how hard you are to hit (heavy gear can have a negative one)
-#   hit     accuracy bonus for your own attacks   speed  added to your speed
-# Items with min_floor and frequency also lie around on the floors; the rest are only carried from the start.
+# Items. Only those with min_floor and frequency lie around on the floors; the rest are carried from the start.
 HANDS_ITEMS = {
     "Knife":        {"slot": "Hands", "damage": "1d6", "hit": 0,  "dv": 0, "weight": 0.5, "min_floor": 1, "frequency": 1},
     "Dagger":       {"slot": "Hands", "damage": "2d5", "hit": 10, "dv": 3, "weight": 1},
@@ -43,5 +39,5 @@ OTHER_ITEMS = {GRAIL_NAME: {"weight": 2}}
 
 ITEMS = HANDS_ITEMS | HEAD_ITEMS | BODY_ITEMS | FEET_ITEMS | OTHER_ITEMS
 
-SLOT_GLYPHS = {"Head": "^", "Body": "[", "Hands": "/", "Feet": "_"}   # how items lying on the floor look
-PILE_GLYPH = "*"                              # several items lying on one tile
+SLOT_GLYPHS = {"Head": "^", "Body": "[", "Hands": "/", "Feet": "_"}
+PILE_GLYPH = "*"

@@ -1,11 +1,12 @@
 import { fontFor } from './config.js';
 import { showDisconnected, updateHud } from './hud.js';
 import { bindKeys } from './input.js';
-import { refresh, setState } from './render.js';
+import { refresh, setPalette, setState } from './render.js';
 
-// Canvas needs the font loaded before drawing; redraw once it is available.
 document.fonts.load(fontFor(1)).then(refresh);
 window.addEventListener('resize', refresh);
+
+setPalette(await (await fetch('/palette')).json());
 
 const sock = new WebSocket(`${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/ws`);
 sock.onmessage = e => {

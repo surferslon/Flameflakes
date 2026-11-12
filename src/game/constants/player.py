@@ -3,4 +3,4 @@ HEAL_ON_CLIMB = 5
 CARRY_CAPACITY = 20
 EQUIPMENT_SLOTS = ("Head", "Hands", "Body", "Feet")
 UNARMED_DAMAGE = "1d2"
-START_ITEMS = ["Dagger", "Wool Hat", "Fur", "Leather Shoes"]   # worn at the start of a run
+START_ITEMS = ["Dagger", "Wool Hat", "Fur", "Leather Shoes"]

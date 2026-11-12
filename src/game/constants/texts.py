@@ -14,5 +14,5 @@ ENDING_PAGES = [
     "The sky splits, the ground crumbles, and the whole world falls apart, sinking into deadly, cosmic chaos...<press enter>",
 ]
 ENDING_HINT = "You have fallen into the Eternal Chaos..."
-DEATH_MESSAGE = "You died"                    # shown alone on a black screen when the player dies
+DEATH_MESSAGE = "You died"
 THE_END = "THE END"

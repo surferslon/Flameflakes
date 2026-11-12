@@ -8,19 +8,17 @@ from .worldgen import FloorState, Pos, generate_floor
 
 
 class World:
-    """All the floors, and the one the player is on: its map, monsters and items, and
-    what has been explored and seen. Floors are built on the first visit and stay as they were."""
+    """All the floors and the one the player is on. Floors are built on the first visit and stay as they were."""
 
     def __init__(self, rng: random.Random) -> None:
         self.rng = rng
         self.visited: dict[int, FloorState] = {}
         self.floor_no = 0
-        self.level_id = 0  # changes with every floor, so the client knows when to stop gliding
-        self.chaos = False  # the level of chaos after the Grail
+        self.level_id = 0
+        self.chaos = False
         self.visible: set[Pos] = set()
 
     def enter(self, number: int, from_below: bool, player: Entity) -> None:
-        """Go to a floor and arrive on the matching stairs."""
         if self.floor_no:
             self.visited[self.floor_no] = FloorState(self.floor, self.monsters, self.explored, self.items)
         self.floor_no = number
@@ -31,7 +29,6 @@ class World:
         self.reveal(player)
 
     def enter_chaos(self, player: Entity) -> None:
-        """The level of chaos: no walls, no monsters, nothing hidden."""
         self.chaos = True
         self.floor = Floor.chaos(self.rng)
         self.monsters, self.items = [], {}
@@ -40,7 +37,6 @@ class World:
         self.reveal(player)
 
     def reveal(self, player: Entity) -> None:
-        """Work out what the player sees from where they stand and remember it."""
         if self.chaos:
             self.visible = {(x, y) for x in range(W) for y in range(H)}
             self.explored = set(self.visible)
@@ -55,4 +51,4 @@ class World:
         return self.floor.tiles[y][x]
 
     def can_drop_at(self, x: int, y: int) -> bool:
-        return self.tile(x, y) == FLOOR  # not on stairs or the Grail's tile
+        return self.tile(x, y) == FLOOR

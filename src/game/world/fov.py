@@ -21,7 +21,6 @@ def _line(x0: int, y0: int, x1: int, y1: int):
 
 
 def visible_tiles(floor: Floor, ox: int, oy: int, radius: int = FOV_RADIUS) -> set[tuple[int, int]]:
-    """Tiles the viewer at (ox, oy) can see. Walls block sight but are seen themselves."""
     seen = {(ox, oy)}
     for ty in range(max(0, oy - radius), min(floor.height, oy + radius + 1)):
         for tx in range(max(0, ox - radius), min(floor.width, ox + radius + 1)):

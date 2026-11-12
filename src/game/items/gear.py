@@ -3,7 +3,7 @@ from ..constants import BASE_ATTACK, BASE_DV, ITEMS, UNARMED_DAMAGE
 
 class Gear:
     def __init__(self, equipment: dict[str, str | None]) -> None:
-        self._equipment = equipment  # slot -> item name; shared with the inventory
+        self._equipment = equipment
 
     def _total(self, key: str) -> int:
         return sum(ITEMS[name].get(key, 0) for name in self._equipment.values() if name)

@@ -3,7 +3,7 @@ class Story:
 
     def __init__(self, pages: list[str] | None = None, closing: str = "") -> None:
         self.pages: list[str] = list(pages or [])
-        self.closing = closing  # logged once the last page has been read
+        self.closing = closing
 
     def start(self, pages: list[str], closing: str = "") -> None:
         self.pages, self.closing = list(pages), closing
@@ -17,6 +17,5 @@ class Story:
         return self.pages[0]
 
     def confirm(self) -> bool:
-        """Turn the page. True when that was the last one."""
         self.pages.pop(0)
         return not self.pages

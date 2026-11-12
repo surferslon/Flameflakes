@@ -1,7 +1,7 @@
 import random
 
 from ..constants import (BACK, DEFAULT_SPEED, DIRECTIONS, ENDING_HINT, ENDING_PAGES, GRAIL, GRAIL_NAME, HEAL_ON_CLIMB,
-                        INTRO_HINT, INTRO_PAGES, NEXT, PLAYER_HP, DEATH_MESSAGE, THE_END, TOTAL_FLOORS, FLOOR)
+                        INTRO_HINT, INTRO_PAGES, NEXT, PLAYER_HP, DEATH_MESSAGE, THE_END, TOTAL_FLOORS, FLOOR, Palette)
 from ..creatures.entity import Entity
 from ..items.inventory import Inventory
 from ..narrative.message_log import MessageLog
@@ -19,7 +19,7 @@ class Game:
         self.turn = 0
         self.dead = False
         self.won = False
-        self.player = Entity(0, 0, "@", "#fff", "you", PLAYER_HP)
+        self.player = Entity(0, 0, "@", Palette.PLAYER, "you", PLAYER_HP)
         self.inventory = Inventory()
         self.world = World(self.rng)
         self.turns = Turns(self.rng, self.player, self.world, self.inventory, self.log)
@@ -42,7 +42,7 @@ class Game:
         return self.view.state()
 
     def handle(self, action: str, arg: int | str | None = None) -> None:
-        if self.story.reading:  # nothing moves until the story page has been read
+        if self.story.reading:
             if action == "confirm" and self.story.confirm():
                 self._story_over()
             return
@@ -73,7 +73,6 @@ class Game:
         self.turn += 1
 
     def _handled(self, done: bool, messages: list[str]) -> None:
-        """Log what the inventory says. If something happened it took a turn."""
         for message in messages:
             self.log(message)
         if done:
@@ -81,7 +80,6 @@ class Game:
             self._end_turn()
 
     def _interact(self) -> None:
-        """F: use the stairs, take the Grail, or pick up what lies here."""
         p, world = self.player, self.world
         stairs = world.floor.stairs_at(p.x, p.y)
         if stairs:
@@ -114,7 +112,7 @@ class Game:
         self.story.start(ENDING_PAGES, ENDING_HINT)
 
     def _story_over(self) -> None:
-        if self.won:  # the ending is over: the world falls into chaos
+        if self.won:
             self.world.enter_chaos(self.player)
         if self.story.closing:
             self.log(self.story.closing)

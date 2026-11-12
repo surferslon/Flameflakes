@@ -6,14 +6,12 @@ from ..world.floor import Floor
 
 
 def spawn(kind: str, x: int, y: int) -> Entity:
-    """A monster from the MONSTERS table, e.g. spawn("troll", 3, 4)."""
     stats = MONSTERS[kind]
     return Entity(x, y, stats["ch"], stats["color"], kind, stats["hp"], True,
                   damage=stats["damage"], speed=stats["speed"], attack=stats["attack"], dv=stats["dv"])
 
 
 def pick_kind(rng: random.Random, floor_no: int) -> str:
-    """A random monster that may appear on this floor; common ones come up more often."""
     kinds = [kind for kind, stats in MONSTERS.items()
              if stats["min_floor"] <= floor_no <= stats.get("max_floor", floor_no)]
     return rng.choices(kinds, weights=[MONSTERS[kind]["frequency"] for kind in kinds])[0]
@@ -35,7 +33,6 @@ def step_towards(mon: Entity, player: Entity, floor: Floor, blocked: set[tuple[i
 
 
 def is_adjacent(mon: Entity, player: Entity) -> bool:
-    """Next to the player, diagonals included, so monsters can fight diagonally too."""
     return max(abs(mon.x - player.x), abs(mon.y - player.y)) == 1
 
 
