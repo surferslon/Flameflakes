@@ -71,6 +71,7 @@ class LevelColors(PageColors):
     HANDS = accent(GREEN, 55, 55)
     FEET = accent(GREEN, 55, 46)
     PILE = accent(GREEN, 25, 88)
+    FOOD = accent(GREEN, 40, 72)
     TILES = {
         ".": (PageColors.FLOOR, neutral(24, saturation=7)),
         "#": (PageColors.WALL, neutral(15, hue=BLUE - 5, saturation=11)),
@@ -83,6 +84,7 @@ class LevelColors(PageColors):
         "/": (HANDS, dim(HANDS)),
         "_": (FEET, dim(FEET)),
         "*": (PILE, dim(PILE)),
+        "%": (FOOD, dim(FOOD)),
     }
     CHAOS = {"hues": list(TRIAD), "seen": "22% 62%", "remembered": "12% 26%"}
 

@@ -1,4 +1,4 @@
-from ..constants import CARRY_CAPACITY, DEATH_MESSAGE, H, ITEMS, PILE_GLYPH, SLOT_GLYPHS, TOTAL_FLOORS, W
+from ..constants import CARRY_CAPACITY, DEATH_MESSAGE, H, FOOD_GLYPH, ITEMS, PILE_GLYPH, SLOT_GLYPHS, TOTAL_FLOORS, W
 
 
 class ClientView:
@@ -33,7 +33,7 @@ class ClientView:
                  for y, row in enumerate(world.floor.tiles)]
         for (x, y), pile in world.items.items():
             if (x, y) in world.explored:
-                known[y][x] = SLOT_GLYPHS[ITEMS[pile[0]]["slot"]] if len(pile) == 1 else PILE_GLYPH
+                known[y][x] = SLOT_GLYPHS.get(ITEMS[pile[0]].get("slot"), FOOD_GLYPH) if len(pile) == 1 else PILE_GLYPH
         return ["".join(row) for row in known]
 
     def _log_lines(self) -> list[tuple[str, str]]:

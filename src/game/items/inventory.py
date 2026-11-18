@@ -1,4 +1,4 @@
-from ..constants import CARRY_CAPACITY, EQUIPMENT_SLOTS, ITEMS, START_ITEMS
+from ..constants import CARRY_CAPACITY, EQUIPMENT_SLOTS, FREE_LOAD, ITEMS, SLOWDOWN_PER_KG, START_BACKPACK, START_ITEMS
 from .gear import Gear
 
 Pos = tuple[int, int]
@@ -14,7 +14,7 @@ def pile_text(pile: list[str]) -> str:
 class Inventory:
     def __init__(self) -> None:
         self.equipment: dict[str, str | None] = dict.fromkeys(EQUIPMENT_SLOTS)
-        self.backpack: list[str] = []
+        self.backpack: list[str] = list(START_BACKPACK)
         for name in START_ITEMS:
             self.equipment[ITEMS[name]["slot"]] = name
         self.gear = Gear(self.equipment)
@@ -24,11 +24,23 @@ class Inventory:
         names = [*self.equipment.values(), *self.backpack]
         return round(sum(ITEMS[name]["weight"] for name in names if name), 2)
 
+    @property
+    def slowdown(self) -> int:
+        return round(max(0, self.weight - FREE_LOAD) * SLOWDOWN_PER_KG)
+
     def fits(self, extra_weight: float) -> bool:
         return self.weight + extra_weight <= CARRY_CAPACITY
 
     def add(self, name: str) -> None:
         self.backpack.append(name)
+
+    def food_at(self, index: object) -> str | None:
+        if isinstance(index, int) and 0 <= index < len(self.backpack) and "heal" in ITEMS[self.backpack[index]]:
+            return self.backpack[index]
+        return None
+
+    def consume(self, index: int) -> None:
+        del self.backpack[index]
 
     def equip(self, index: object) -> Result:
         if not isinstance(index, int) or not 0 <= index < len(self.backpack):

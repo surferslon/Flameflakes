@@ -58,7 +58,7 @@ def test_every_color_is_in_the_triad_or_neutral():
 
 
 def test_items_are_green():
-    for glyph in "^[/_*":
+    for glyph in "^[/_*%":
         assert abs(_hls(palette()["tiles"][glyph]["seen"])[0] - GREEN) <= HUE_TOLERANCE, glyph
 
 

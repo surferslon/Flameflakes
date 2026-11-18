@@ -5,7 +5,7 @@ WALL, FLOOR, DOOR = "#", ".", "="
 NEXT, BACK = ">", "<"
 GRAIL = "Y"
 GRAIL_NAME = "Cursed Grail of Chaos"
-CHAOS_EXCLUDED = set("#.=<>Y@ ")
+CHAOS_EXCLUDED = set("#.=<>Y@% ")
 
 FOV_RADIUS = 8
 SIGHT = 8

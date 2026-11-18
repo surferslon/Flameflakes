@@ -22,6 +22,7 @@ HEAD_ITEMS = {
 }
 
 BODY_ITEMS = {
+    "Shirt":        {"slot": "Body", "pv": 0, "dv": 0, "weight": 0.3},
     "Fur":          {"slot": "Body", "pv": 1, "dv": 0, "weight": 3},
     "Leather Jerkin": {"slot": "Body", "pv": 2, "dv": 0, "weight": 3.5, "min_floor": 1, "frequency": 6},
     "Chainmail":    {"slot": "Body", "pv": 4, "dv": -5, "weight": 8,  "min_floor": 3, "frequency": 4},
@@ -35,9 +36,15 @@ FEET_ITEMS = {
     "Swift Boots":  {"slot": "Feet", "speed": 15, "dv": 8, "weight": 1, "min_floor": 2, "frequency": 3},
 }
 
+FOOD_ITEMS = {
+    "Bread": {"heal": 8, "verb": "eat", "weight": 0.3},
+    "Beer":  {"heal": 20, "verb": "drink", "weight": 1},
+}
+
 OTHER_ITEMS = {GRAIL_NAME: {"weight": 2}}
 
-ITEMS = HANDS_ITEMS | HEAD_ITEMS | BODY_ITEMS | FEET_ITEMS | OTHER_ITEMS
+ITEMS = HANDS_ITEMS | HEAD_ITEMS | BODY_ITEMS | FEET_ITEMS | FOOD_ITEMS | OTHER_ITEMS
 
 SLOT_GLYPHS = {"Head": "^", "Body": "[", "Hands": "/", "Feet": "_"}
 PILE_GLYPH = "*"
+FOOD_GLYPH = "%"

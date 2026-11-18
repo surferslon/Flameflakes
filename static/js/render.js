@@ -117,8 +117,18 @@ function drawHelp(m) {
 
 let cursor = { col: 0, row: 0 };
 
+// The backpack with equal items grouped: { name, count, index of the first one }.
+function backpackGroups() {
+  const groups = new Map();
+  state.backpack.forEach((name, index) => {
+    if (groups.has(name)) groups.get(name).count++;
+    else groups.set(name, { name, count: 1, index });
+  });
+  return [...groups.values()];
+}
+
 function clampCursor() {
-  const lengths = [Object.keys(state.equipment).length, state.backpack.length];
+  const lengths = [Object.keys(state.equipment).length, backpackGroups().length];
   if (cursor.col === 1 && lengths[1] === 0) cursor.col = 0;
   cursor.row = Math.max(0, Math.min(lengths[cursor.col] - 1, cursor.row));
 }
@@ -138,8 +148,8 @@ export function inventoryRequest(kind) {
     const slot = Object.keys(state.equipment)[cursor.row];
     return kind === 'use' && state.equipment[slot] ? { action: 'unequip', arg: slot } : null;
   }
-  if (state.backpack.length === 0) return null;
-  return { action: kind === 'drop' ? 'drop' : 'equip', arg: cursor.row };
+  const group = backpackGroups()[cursor.row];
+  return group ? { action: kind === 'drop' ? 'drop' : 'equip', arg: group.index } : null;
 }
 
 function drawInventory(m) {
@@ -161,7 +171,7 @@ function drawInventory(m) {
   const col = Math.floor(state.w / 2) + 2;
   text(col, 3, 'BACKPACK', heading);
   if (state.backpack.length === 0) text(col, top, '(empty)', dim);
-  state.backpack.forEach((item, i) => text(col, top + i, item, itemColor));
+  backpackGroups().forEach(({ name, count }, i) => text(col, top + i, count > 1 ? `x${count} ${name}` : name, itemColor));
 
   text(cursor.col === 0 ? 1 : col - 1, top + cursor.row, '>', title);
   text(2, state.h - 3, 'WSAD select | f use | x drop', dim);

@@ -1,7 +1,7 @@
 import random
 
-from ..constants import (BACK, DEFAULT_SPEED, DIRECTIONS, ENDING_HINT, ENDING_PAGES, GRAIL, GRAIL_NAME, HEAL_ON_CLIMB,
-                        INTRO_HINT, INTRO_PAGES, NEXT, PLAYER_HP, DEATH_MESSAGE, THE_END, TOTAL_FLOORS, FLOOR, Palette)
+from ..constants import (BACK, DEFAULT_SPEED, DIRECTIONS, ENDING_HINT, ENDING_PAGES, GRAIL, GRAIL_NAME, HEAL_ON_CLIMB, REGEN_TURNS,
+                        INTRO_HINT, INTRO_PAGES, ITEMS, NEXT, PLAYER_HP, DEATH_MESSAGE, THE_END, TOTAL_FLOORS, FLOOR, Palette)
 from ..creatures.entity import Entity
 from ..items.inventory import Inventory
 from ..narrative.message_log import MessageLog
@@ -52,7 +52,10 @@ class Game:
         if action == "interact":
             self._interact()
         elif action == "equip":
-            self._handled(*self.inventory.equip(arg))
+            if food := self.inventory.food_at(arg):
+                self._eat(arg, food)
+            else:
+                self._handled(*self.inventory.equip(arg))
         elif action == "unequip":
             self._handled(*self.inventory.unequip(arg))
         elif action == "drop":
@@ -63,14 +66,25 @@ class Game:
         elif action in DIRECTIONS and self.turns.player_acts(*DIRECTIONS[action]):
             self._end_turn()
 
+    def _eat(self, index: int, name: str) -> None:
+        if self.player.hp >= PLAYER_HP:
+            self.log("You are not hurt.")
+            return
+        item = ITEMS[name]
+        self.player.hp = min(PLAYER_HP, self.player.hp + item["heal"])
+        self.inventory.consume(index)
+        self._handled(True, [f"You {item['verb']} the {name}."])
+
     def _refresh_stats(self) -> None:
-        self.player.speed = DEFAULT_SPEED + self.inventory.gear.speed_bonus
+        self.player.speed = DEFAULT_SPEED + self.inventory.gear.speed_bonus - self.inventory.slowdown
 
     def _end_turn(self) -> None:
         if self.turns.monsters_act():
             self.dead = True
             self.log(DEATH_MESSAGE)
         self.turn += 1
+        if not self.dead and self.turn % REGEN_TURNS == 0:
+            self.player.hp = min(PLAYER_HP, self.player.hp + 1)
 
     def _handled(self, done: bool, messages: list[str]) -> None:
         for message in messages:

@@ -28,7 +28,8 @@ def generate_floor(rng: random.Random, floor_no: int) -> FloorState:
     count = min(len(floor.rooms) - 1, 2 + floor_no)
     rooms = rng.sample(floor.rooms[1:], count)
     mons = [monsters.spawn(monsters.pick_kind(rng, floor_no), *room.center) for room in rooms]
-    return FloorState(floor, mons, set(), scatter_items(rng, floor, floor_no, {(m.x, m.y) for m in mons}))
+    items = scatter_items(rng, floor, floor_no, {(m.x, m.y) for m in mons}) if floor_no > 1 else {}
+    return FloorState(floor, mons, set(), items)
 
 
 def scatter_items(rng: random.Random, floor: Floor, floor_no: int, taken: set[Pos]) -> dict[Pos, list[str]]:

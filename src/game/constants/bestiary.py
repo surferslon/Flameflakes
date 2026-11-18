@@ -7,6 +7,7 @@ MONSTERS = {
     "bug": {"ch": "b", "color": Palette.monster(Palette.GREEN, 1), "hp": 3, "damage": "1d3", "speed": 90, "attack": 30, "dv": 4, "min_floor": 1, "max_floor": 1, "frequency": 8},
     "slime": {"ch": "j", "color": Palette.monster(Palette.GREEN, 1), "hp": 8, "damage": "1d4", "speed": 80, "attack": 30, "dv": 0, "min_floor": 1, "max_floor": 1, "frequency": 8},
     "goblin": {"ch": "g", "color": Palette.monster(Palette.GREEN, 1), "hp": 8, "damage": "1d6-1", "speed": 98, "attack": 40, "dv": 8, "min_floor": 1, "max_floor": 2, "frequency": 10},
+    "hobbit": {"ch": "p", "color": Palette.monster(Palette.GREEN, 2), "hp": 6, "damage": "1d4+1", "speed": 105, "attack": 40, "dv": 20, "min_floor": 1, "max_floor": 2, "frequency": 7},
     "bat": {"ch": "v", "color": Palette.monster(Palette.BLUE, 1), "hp": 4, "damage": "1d4", "speed": 130, "attack": 40, "dv": 25, "min_floor": 1, "max_floor": 1, "frequency": 7},
     "spider": {"ch": "s", "color": Palette.monster(Palette.BLUE, 2), "hp": 12, "damage": "1d6", "speed": 105, "attack": 50, "dv": 15, "min_floor": 2, "max_floor": 2, "frequency": 8},
     "gnome": {"ch": "n", "color": Palette.monster(Palette.RED, 2), "hp": 14, "damage": "1d6", "speed": 90, "attack": 45, "dv": 5, "min_floor": 2, "max_floor": 2, "frequency": 8},

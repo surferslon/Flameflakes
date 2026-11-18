@@ -1,6 +1,10 @@
 PLAYER_HP = 100
 HEAL_ON_CLIMB = 5
+REGEN_TURNS = 20       # you heal 1 HP every this many turns
 CARRY_CAPACITY = 20
+FREE_LOAD = 5          # kg you carry without being slowed
+SLOWDOWN_PER_KG = 2    # speed lost for every kg above that
 EQUIPMENT_SLOTS = ("Head", "Hands", "Body", "Feet")
 UNARMED_DAMAGE = "1d2"
-START_ITEMS = ["Dagger", "Wool Hat", "Fur", "Leather Shoes"]
+START_ITEMS = ["Knife", "Shirt", "Boots"]
+START_BACKPACK = ["Bread", "Bread", "Bread", "Beer", "Beer"]
