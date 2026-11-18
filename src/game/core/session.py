@@ -56,6 +56,8 @@ class Game:
                 self._eat(arg, food)
             else:
                 self._handled(*self.inventory.equip(arg))
+        elif action == "eat_here":
+            self._eat_from_floor(pos)
         elif action == "unequip":
             self._handled(*self.inventory.unequip(arg))
         elif action == "drop":
@@ -70,10 +72,25 @@ class Game:
         if self.player.hp >= PLAYER_HP:
             self.log("You are not hurt.")
             return
+        self.inventory.consume(index)
+        self._handled(True, [self._heal_from(name)])
+
+    def _eat_from_floor(self, pos: tuple[int, int]) -> None:
+        pile = self.world.items.get(pos)
+        if not pile or "heal" not in ITEMS[pile[-1]]:
+            self.log("There is nothing to eat here.")
+        elif self.player.hp >= PLAYER_HP:
+            self.log("You are not hurt.")
+        else:
+            name = pile.pop()
+            if not pile:
+                del self.world.items[pos]
+            self._handled(True, [self._heal_from(name)])
+
+    def _heal_from(self, name: str) -> str:
         item = ITEMS[name]
         self.player.hp = min(PLAYER_HP, self.player.hp + item["heal"])
-        self.inventory.consume(index)
-        self._handled(True, [f"You {item['verb']} the {name}."])
+        return f"You {item['verb']} the {name}."
 
     def _refresh_stats(self) -> None:
         self.player.speed = DEFAULT_SPEED + self.inventory.gear.speed_bonus - self.inventory.slowdown

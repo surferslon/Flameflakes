@@ -94,7 +94,7 @@ class MenuColors(LevelColors):
     UI = {
         "title": TITLE,
         "heading": PageColors.TEXT,
-        "item": LevelColors.BODY,
+        "item": neutral(70),
         "bright": neutral(100),
         "label": PageColors.FLOOR,
         "dim": neutral(40, saturation=5),

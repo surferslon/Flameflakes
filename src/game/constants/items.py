@@ -1,6 +1,7 @@
 """Things to wear and wield, and how they look when they lie on the floor."""
 
 
+from .bestiary import CORPSE_HEAL, MONSTERS
 from .world import GRAIL_NAME
 
 # Items. Only those with min_floor and frequency lie around on the floors; the rest are carried from the start.
@@ -41,9 +42,13 @@ FOOD_ITEMS = {
     "Beer":  {"heal": 20, "verb": "drink", "weight": 1},
 }
 
+# Corpses are never scattered on the floors (no min_floor): they only come from slain monsters.
+CORPSE_ITEMS = {f"Corpse of {kind}": {"heal": heal, "verb": "eat", "weight": max(0.3, round(MONSTERS[kind]["hp"] / 10, 1))}
+                for kind, heal in CORPSE_HEAL.items()}
+
 OTHER_ITEMS = {GRAIL_NAME: {"weight": 2}}
 
-ITEMS = HANDS_ITEMS | HEAD_ITEMS | BODY_ITEMS | FEET_ITEMS | FOOD_ITEMS | OTHER_ITEMS
+ITEMS = HANDS_ITEMS | HEAD_ITEMS | BODY_ITEMS | FEET_ITEMS | FOOD_ITEMS | CORPSE_ITEMS | OTHER_ITEMS
 
 SLOT_GLYPHS = {"Head": "^", "Body": "[", "Hands": "/", "Feet": "_"}
 PILE_GLYPH = "*"

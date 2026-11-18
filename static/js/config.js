@@ -9,6 +9,7 @@ export const MOVE_MS = 90;
 export const HELP = [
   ['Move/attack', 'QWEASDZXC'],
   ['Stairs, pick up', 'F'],
+  ['Eat from the floor', 'R'],
   ['Inventory', 'I  (WSAD select | f use | x drop)'],
   ['Help', '?'],
 ];
@@ -17,7 +18,7 @@ export const KEYS = {
   ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right',
   w: 'up', x: 'down', a: 'left', d: 'right', s: 'wait',
   q: 'up_left', e: 'up_right', z: 'down_left', c: 'down_right',
-  '.': 'wait', f: 'interact', Enter: 'confirm',
+  '.': 'wait', f: 'interact', r: 'eat_here', Enter: 'confirm',
 };
 
 export const fontFor = scale => `bold ${FONT_PX * scale}px ${FONT_FAMILY}`;

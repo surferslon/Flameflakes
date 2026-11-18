@@ -31,5 +31,8 @@ MONSTERS = {
 
 HALL_GUARDS = ("hand", "zombie", "troll", "ogre")
 
-BOSS = {"name": "Flake Lord", "ch": "F", "color": Palette.BOSS, "hp": 50, "damage": "2d6+8", "speed": 100,
-        "attack": 75, "dv": 20}
+# Monsters that leave an edible corpse (HP it heals). The rest (undead, golems, spirits...) leave nothing.
+CORPSE_HEAL = {"rat": 3, "ant": 2, "bug": 2, "hobbit": 5, "goblin": 5, "bat": 3, "spider": 4, "gnome": 5, "snake": 5,
+               "claw bug": 4, "wolf": 8, "orc": 8, "troll": 12, "ogre": 12, "unicorn": 10}
+CORPSE_CHANCE = 50  # % that such a monster actually leaves its corpse
+BOSS = {"name": "Flake Lord", "ch": "F", "color": Palette.BOSS, "hp": 50, "damage": "2d6+8", "speed": 100, "attack": 75, "dv": 20}

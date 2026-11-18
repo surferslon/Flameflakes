@@ -7,7 +7,8 @@ Result = tuple[bool, list[str]]
 
 def pile_text(pile: list[str]) -> str:
     if len(pile) == 1:
-        return f"{pile[0]} lies here. Press F to pick it up."
+        eat = " R to eat it." if "heal" in ITEMS[pile[0]] else ""
+        return f"{pile[0]} lies here. Press F to pick it up.{eat}"
     return "Several items lying here. Press F to pick one up."
 
 

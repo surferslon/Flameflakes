@@ -3,7 +3,7 @@ from collections.abc import Callable
 
 from ..rules import combat
 from ..creatures import monsters
-from ..constants import ACTION_COST, BACK, GRAIL, GRAIL_NAME, NEXT
+from ..constants import ACTION_COST, BACK, CORPSE_CHANCE, CORPSE_HEAL, GRAIL, GRAIL_NAME, NEXT
 from ..creatures.entity import Entity
 from ..items.inventory import Inventory, pile_text
 from ..world.world import World
@@ -43,8 +43,13 @@ class Turns:
             self.log(line)
         if target.hp <= 0:
             self.world.monsters.remove(target)
+            self._leave_corpse(target)
             if target.boss:
                 self.log("The way to the Grail is open.")
+
+    def _leave_corpse(self, mon: Entity) -> None:
+        if mon.name in CORPSE_HEAL and self.world.can_drop_at(mon.x, mon.y) and self.rng.randint(1, 100) <= CORPSE_CHANCE:
+            self.world.items.setdefault((mon.x, mon.y), []).append(f"Corpse of {mon.name}")
 
     def _notice_what_lies_here(self) -> None:
         p, world = self.player, self.world
