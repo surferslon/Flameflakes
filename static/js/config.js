@@ -5,6 +5,7 @@ export const TILE_DIM = 0.35;
 export const SHIFT_MS = 300;
 export const REVEAL_MS = 350;
 export const MOVE_MS = 90;
+export const REPEAT_MS = 200;   // a held key acts at most this often
 
 export const HELP = [
   ['Move/attack', 'QWEASDZXC'],

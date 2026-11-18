@@ -1,4 +1,4 @@
-import { KEYS } from './config.js';
+import { KEYS, REPEAT_MS } from './config.js';
 import { closeScreen, currentScreen, inventoryRequest, isBlank, isScreenOpen, moveCursor, openScreen } from './render.js';
 
 const SCREENS = { i: 'inventory', '?': 'help' };
@@ -10,6 +10,7 @@ const CURSOR_KEYS = {
 const INVENTORY_KEYS = { Enter: 'use', f: 'use', x: 'drop' };
 
 export function bindKeys(sock) {
+  let lastAction = 0;
   const send = message => sock.readyState === WebSocket.OPEN && sock.send(JSON.stringify(message));
 
   window.addEventListener('keydown', e => {
@@ -37,6 +38,8 @@ export function bindKeys(sock) {
     const action = KEYS[e.key];
     if (action) {
       e.preventDefault();
+      if (e.repeat && performance.now() - lastAction < REPEAT_MS) return;  // slow down a held key
+      lastAction = performance.now();
       send({ action });
     }
   });
